@@ -1,12 +1,25 @@
-version: '3'
+version: '3.8'
 
 services:
   mysql:
     image: mysql:8.3.0
+    restart: always
     environment:
-#      MYSQL_USER: "root"
       MYSQL_ROOT_PASSWORD: "root505"
       MYSQL_DATABASE: "kata_task_3.1.4_with_docker"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
 
   app:
     build: ./
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/kata_task_3.1.4_with_docker
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root505
