@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.3.0
+    environment:
+#      MYSQL_USER: "root"
+      MYSQL_ROOT_PASSWORD: "root505"
+      MYSQL_DATABASE: "kata_task_3.1.4_with_docker"
+
+  app:
+    build: ./
